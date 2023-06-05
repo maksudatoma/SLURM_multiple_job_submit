@@ -1,0 +1,13 @@
+#!/bin/sh
+#SBATCH --array=3-18:3          #Jobs will be submitted with a ID at every 3 interval until 18    
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --partition=batch
+#SBATCH --mem=25G
+#SBATCH --time=1:00:00
+#SBATCH --job-name=18_block_stat
+#SBATCH --output=stat_%a_%A.out
+#SBATCH --error=stat_%a_%A.error
+
+module load matlab/r2021b
+matlab -nodisplay -r "matlab_code(<input_arguments>),quit"
