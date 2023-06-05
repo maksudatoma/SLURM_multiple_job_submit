@@ -1,0 +1,10 @@
+#!/bin/sh
+#SBATCH --array=1-40
+#SBATCH --nodes=1
+#SBATCH --time=127:00:00
+#SBATCH --mem=64G
+#SBATCH -o two_phase_30-%A_%a.out --array=1-40
+
+module load singularity
+mkdir /location/to/your/workspace/$SLURM_ARRAY_TASK_ID
+singularity exec -B /location/to/your/workspace/$SLURM_ARRAY_TASK_ID:/mnt docker://unlhcc/dream3d PipelineRunner -p /location/to/your/workspace/*.json
