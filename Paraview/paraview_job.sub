@@ -1,0 +1,11 @@
+#!/bin/sh
+#SBATCH --nodes=1
+#SBATCH --time=6:00:00
+#SBATCH --qos=short
+#SBATCH --mem=64G
+#SBATCH --job-name=stl
+#SBATCH --error=stl_paraview.err
+#SBATCH --output=stl_paraview.out
+
+module load paraview/py37/5.9.      
+python paraview_script.py         #Paraview can be made to create a python script
