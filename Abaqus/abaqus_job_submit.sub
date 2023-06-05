@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH --nodes=1                   # This command basically means how many machines(computers) you are requesting. 
+#SBATCH --partition=jaturner		    # For using Dr. Turner's Leased nodes. we have 4 nodes in total
+#SBATCH --ntasks-per-node=8         # It signifies how many cores/machine are you asking from HCC. 
+#SBATCH --mem-per-cpu=2gb           # mem-per-cpu denotes how much RAM is needed per core. We can also use --mem command. Using --mem we can select the total amount of RAM from a machine
+#SBATCH --constraint=ib		          # Abaqus only runs on older nodes(machines) on HCC. this command makes HCC look for older nodes only
+#SBATCH --time=160:00:00            # Maximum number of hours the job can be running
+#SBATCH --job-name=abaqus_test	    # Its the name that we see in the putty/terminal when the job is running on HCC.
+#SBATCH --error=job.%J.err	        # Saves errors in a file named job.%J.err
+#SBATCH --output=job.%J.out         # Saves output in a file named job.%J.out
+
+if [[ "${SHELL}" =~ "tcsh" ]]       
+then
+  . /util/opt/lmod/lmod/init/profile
+  module use /util/opt/hcc-modules/Common
+fi
+
+module load abaqus/2019		          # for calling abaqus
+source hcc_abaqus
+
+abaqus cae noGUI=growth.py > output.txt 2>&1    #Faezeh: for submitting the file. I should put the python file name instead of "growth.py" and do not change anything else.#Showmic: most likely. But, if you are trying to run Abaqus from a python code you might have to use "pyhton python_code_name.py"
